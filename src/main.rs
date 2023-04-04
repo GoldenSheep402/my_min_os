@@ -1,10 +1,7 @@
 #![no_std] // 不链接 Rust 标准库
 #![no_main] // 禁用所有 Rust 层级的入口点
-
-static MSG: &[u8] = b"my_min_os!";
-
+mod vga_buffer;
 use core::panic::PanicInfo;
-
 /// 这个函数将在 panic 时被调用
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -13,14 +10,6 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    let vga_buffer = 0xb8000 as *mut u8;
-
-    for (i, &byte) in MSG.iter().enumerate() {
-        unsafe {
-            *vga_buffer.offset(i as isize * 2) = byte;
-            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
-        }
-    }
-
+    vga_buffer::print_something();
     loop {}
 }
