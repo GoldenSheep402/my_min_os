@@ -12,4 +12,5 @@ panic = "abort" # 禁用panic时栈展开
 panic = "abort" # 禁用 panic 时栈展开
 
 [dependencies]
-bootloader = "0.9.23"
+bootloader = "0.11.3"
+volatile = "0.4.6"
